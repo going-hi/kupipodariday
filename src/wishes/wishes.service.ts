@@ -7,7 +7,7 @@ import {
 import { CreateWishDto } from './dto/create-wish.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WishesEntity } from './entities/wishes.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { UpdateWishDto } from './dto/update-wish.dto';
 
 @Injectable()
@@ -122,5 +122,13 @@ export class WishesService {
     }
     wish.raised += amount;
     return this.wishesRepository.save(wish);
+  }
+
+  async getByIds(ids: number[]) {
+    return this.wishesRepository.find({
+      where: {
+        id: In(ids),
+      },
+    });
   }
 }
