@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOffersDto } from './dto/create-offers.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OffersEntity } from './offers.entity';
+import { OffersEntity } from './entities/offers.entity';
 import { Repository } from 'typeorm';
 import { WishesService } from 'src/wishes/wishes.service';
 

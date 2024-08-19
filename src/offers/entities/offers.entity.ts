@@ -1,5 +1,5 @@
-import { UsersEntity } from 'src/users/users.entity';
-import { WishesEntity } from 'src/wishes/wishes.entity';
+import { UsersEntity } from 'src/users/entities/users.entity';
+import { WishesEntity } from 'src/wishes/entities/wishes.entity';
 import {
   Column,
   CreateDateColumn,

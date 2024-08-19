@@ -1,6 +1,6 @@
-import { OffersEntity } from 'src/offers/offers.entity';
-import { UsersEntity } from 'src/users/users.entity';
-import { WishlistsEntity } from 'src/wishlists/wishlists.entity';
+import { OffersEntity } from 'src/offers/entities/offers.entity';
+import { UsersEntity } from 'src/users/entities/users.entity';
+import { WishlistsEntity } from 'src/wishlists/entities/wishlists.entity';
 import {
   Column,
   CreateDateColumn,

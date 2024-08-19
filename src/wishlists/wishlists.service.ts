@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { WishlistsEntity } from './wishlists.entity';
+import { WishlistsEntity } from './entities/wishlists.entity';
 import { Repository } from 'typeorm';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 

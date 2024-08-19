@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { CreateWishDto } from './dto/create-wish.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { WishesEntity } from './wishes.entity';
+import { WishesEntity } from './entities/wishes.entity';
 import { Repository } from 'typeorm';
 import { UpdateWishDto } from './dto/update-wish.dto';
 
