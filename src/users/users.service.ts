@@ -64,7 +64,7 @@ export class UsersService {
     const user = await this.usersRepository.findOne({ where: { id } });
     if (!user) throw new BadRequestException('Вас нет в системе');
 
-    if (user.email !== dto.email) {
+    if (dto.email && user.email !== dto.email) {
       const candidate = await this.findOneByEmail(dto.email);
       if (candidate) {
         throw new BadRequestException(
@@ -73,14 +73,24 @@ export class UsersService {
       }
     }
 
-    const salt = await genSalt(8);
-    const hashPassword = await hash(dto.password, salt);
+    if (dto.username && user.username !== dto.username) {
+      const candidate = await this.findOneByUsername(dto.username);
+      if (candidate) {
+        throw new BadRequestException(
+          'Пользователь с таким username уже существует',
+        );
+      }
+    }
+
+    if (dto.password) {
+      const salt = await genSalt(8);
+      user.password = await hash(dto.password, salt);
+    }
 
     const { username, about, avatar, email, createdAt, updatedAt } =
       await this.usersRepository.save({
         ...user,
         ...dto,
-        password: hashPassword,
       });
 
     return {

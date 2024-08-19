@@ -46,13 +46,12 @@ export class AuthService {
     return { id, username, about, avatar, email, createdAt, updatedAt };
   }
 
-  async validateUser(username: string, pass: string): Promise<any> {
+  async validateUser(username: string, pass: string) {
     const user = await this.usersService.findOneByUsername(username);
+    if (!user) return null;
     const isMatch = await compare(pass, user.password);
-    if (user && isMatch) {
-      delete user.password;
-      return user;
-    }
-    return null;
+    if (!isMatch) return null;
+    delete user.password;
+    return user;
   }
 }

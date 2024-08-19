@@ -28,10 +28,11 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Patch('me')
-  updateProfile(@User('id') id: number, @Body() dto: UpdateUserDto) {
+  updateProfile(@Body() dto: UpdateUserDto, @User('id') id: number) {
     return this.usersService.updateProfile(id, dto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('me/wishes')
   getOwnWishes(@User('id') userId: number) {
     return this.usersService.getWishesById(userId);

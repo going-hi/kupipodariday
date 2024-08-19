@@ -17,7 +17,10 @@ export class WishesService {
   ) {}
 
   async getAllByUserId(userId: number) {
-    return this.wishesRepository.find({ where: { owner: { id: userId } } });
+    return this.wishesRepository.find({
+      where: { owner: { id: userId }, offers: { user: true } },
+      select: { offers: { user: { id: true, username: true } } },
+    });
   }
 
   async create(userId: number, dto: CreateWishDto) {
@@ -28,14 +31,17 @@ export class WishesService {
       raised: 0,
       owner: { id: userId },
     });
-    await this.wishesRepository.save(wishes);
+    return await this.wishesRepository.save(wishes);
   }
 
   async getOne(id: number) {
     const wish = await this.wishesRepository.findOne({
       where: { id },
-      relations: { owner: true },
-      select: { owner: { id: true } },
+      relations: { owner: true, offers: { user: true } },
+      select: {
+        owner: { id: true, username: true },
+        offers: { user: { id: true, username: true } },
+      },
     });
     return wish;
   }
@@ -82,12 +88,22 @@ export class WishesService {
   async copy(id: number, userId: number) {
     const wish = await this.getOne(id);
     if (!wish) throw new NotFoundException();
-    return this.create(userId, {
+    wish.copied++;
+
+    await this.wishesRepository.save(wish);
+    return await this.create(userId, {
       description: wish.description,
       image: wish.image,
       link: wish.image,
       name: wish.name,
       price: wish.price,
     });
+  }
+
+  async addRaised(id: number, amount: number) {
+    const wish = await this.getOne(id);
+    if (!wish) throw new NotFoundException('Товар с таким id не найден');
+    wish.raised += amount;
+    return this.wishesRepository.save(wish);
   }
 }

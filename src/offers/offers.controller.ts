@@ -26,8 +26,12 @@ export class OffersController {
   }
 
   @Get()
-  getAll() {}
+  getAll() {
+    return this.offersService.getAll();
+  }
 
   @Get(':id')
-  getOne(@Param('id', ParseIntPipe) id: number) {}
+  getOne(@Param('id', ParseIntPipe) id: number) {
+    return this.offersService.getOne(id);
+  }
 }
