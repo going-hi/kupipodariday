@@ -1,9 +1,12 @@
+import { OffersEntity } from 'src/offers/offers.entity';
 import { UsersEntity } from 'src/users/users.entity';
+import { WishlistsEntity } from 'src/wishlists/wishlists.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -29,14 +32,11 @@ export class WishesEntity {
   @Column()
   image: string;
 
-  @Column()
+  @Column({ type: 'float4' })
   price: number;
 
-  @Column()
+  @Column({ type: 'float4' })
   raised: number;
-
-  @ManyToOne(() => UsersEntity, (user) => user.wishes)
-  owner: UsersEntity;
 
   @Column()
   description: string;
@@ -44,5 +44,12 @@ export class WishesEntity {
   @Column({ default: 0 })
   copied: number;
 
-  offers;
+  @ManyToOne(() => UsersEntity, (user) => user.wishes)
+  owner: UsersEntity;
+
+  @OneToMany(() => OffersEntity, (offers) => offers.item)
+  offers: OffersEntity[];
+
+  @ManyToOne(() => WishlistsEntity, (wishlists) => wishlists.items)
+  wishlist: WishlistsEntity;
 }

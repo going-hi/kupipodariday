@@ -1,10 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
-import { SignInDto } from './dto/signin.dto';
 import { SignUpDto } from './dto/signup.dto';
 import { compare, genSalt, hash } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { UsersEntity } from 'src/users/users.entity';
 
 @Injectable()
 export class AuthService {
@@ -13,8 +11,9 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(user: UsersEntity) {
-    const payload = { username: user.username, id: user.id };
+  async signIn(username: string) {
+    const user = await this.usersService.findOneByUsername(username);
+    const payload = { username, id: user.id };
     return {
       access_token: this.jwtService.sign(payload),
     };
@@ -29,11 +28,12 @@ export class AuthService {
     }
     const salt = await genSalt(8);
     const hashPassword = await hash(dto.password, salt);
-    await this.usersService.create({ ...dto, password: hashPassword });
-    const payload = { username: user.username, id: user.id };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+    const { id, username, about, avatar, email, createdAt, updatedAt } =
+      await this.usersService.create({
+        ...dto,
+        password: hashPassword,
+      });
+    return { id, username, about, avatar, email, createdAt, updatedAt };
   }
 
   async validateUser(username: string, pass: string): Promise<any> {

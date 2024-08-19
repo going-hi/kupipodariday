@@ -1,7 +1,11 @@
+import { OffersEntity } from 'src/offers/offers.entity';
+import { WishesEntity } from 'src/wishes/wishes.entity';
+import { WishlistsEntity } from 'src/wishlists/wishlists.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -17,7 +21,7 @@ export class UsersEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column({ unique: true })
+  @Column()
   username: string;
 
   @Column({ default: 'Пока ничего не рассказал о себе' })
@@ -29,12 +33,15 @@ export class UsersEntity {
   @Column({ unique: true })
   email: string;
 
-  @Column({})
+  @Column()
   password: string;
 
-  wishes;
+  @OneToMany(() => WishesEntity, (wishes) => wishes.owner)
+  wishes: WishesEntity[];
 
-  offers;
+  @OneToMany(() => OffersEntity, (offers) => offers.user)
+  offers: OffersEntity[];
 
-  wishlists;
+  @OneToMany(() => WishlistsEntity, (wishlists) => wishlists.user)
+  wishlists: WishlistsEntity[];
 }

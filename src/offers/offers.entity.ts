@@ -1,8 +1,10 @@
 import { UsersEntity } from 'src/users/users.entity';
+import { WishesEntity } from 'src/wishes/wishes.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -18,13 +20,15 @@ export class OffersEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  user: UsersEntity;
-
-  item;
-
-  @Column()
+  @Column({ type: 'float4' })
   amount: number;
 
   @Column({ default: false })
   hidden: boolean;
+
+  @ManyToOne(() => UsersEntity, (user) => user.offers)
+  user: UsersEntity;
+
+  @ManyToOne(() => WishesEntity, (wishes) => wishes.offers)
+  item: WishesEntity;
 }
