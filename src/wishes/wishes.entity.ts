@@ -28,7 +28,6 @@ export class WishesEntity {
   @Column()
   link: string;
 
-  //   *  ссылка на изображение подарка, строка. Должна быть валидным URL.
   @Column()
   image: string;
 
