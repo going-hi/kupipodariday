@@ -1,7 +1,18 @@
-import { IsInt, IsString, IsUrl } from 'class-validator';
+import {
+  IsInt,
+  IsOptional,
+  IsString,
+  IsUrl,
+  Max,
+  MaxLength,
+  Min,
+} from 'class-validator';
 
 export class CreateWishlistDto {
+  // FIX - add validation
   @IsString()
+  @Min(1)
+  @Max(250)
   name: string;
 
   @IsUrl()
@@ -9,4 +20,10 @@ export class CreateWishlistDto {
 
   @IsInt({ each: true })
   itemsId: number[];
+
+  // FIX - add field and validation - ???? - swagger hasn't got this field
+  @IsOptional()
+  @MaxLength(1500)
+  @IsString()
+  description?: string;
 }
