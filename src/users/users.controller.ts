@@ -49,7 +49,7 @@ export class UsersController {
   }
 
   @Post('find')
-  findUser(@Body() { query }: FindUserDto) {
+  findMany(@Body() { query }: FindUserDto) {
     return this.usersService.findUser(query);
   }
 }

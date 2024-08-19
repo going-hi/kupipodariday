@@ -20,6 +20,8 @@ import { CreateWishlistDto } from './dto/create-wishlist.dto';
 export class WishlistsController {
   constructor(private readonly wishlistsService: WishlistsService) {}
 
+  // FIX - add patch
+
   @UseGuards(JwtAuthGuard)
   @Post()
   create(@User('id') id: number, @Body() dto: CreateWishlistDto) {

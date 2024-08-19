@@ -1,20 +1,28 @@
-import { IsOptional, IsString, IsUrl } from 'class-validator';
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  IsUrl,
+  Max,
+  Min,
+} from 'class-validator';
+import { SignInDto } from './signin.dto';
 
-export class SignUpDto {
+// FIX - extends dto about SignInDto - reuse username and password fields with validation
+export class SignUpDto extends SignInDto {
   @IsString()
+  @IsEmail()
   email: string;
-
-  @IsString()
-  username: string;
-
-  @IsString()
-  password: string;
 
   @IsOptional()
   @IsUrl()
   avatar?: string;
 
+  // FIX - rename field: description -> about
+  // FIX - add validation
   @IsOptional()
+  @Min(2)
+  @Max(200)
   @IsString()
-  description?: string;
+  about?: string;
 }
