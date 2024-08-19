@@ -42,6 +42,6 @@ export class UsersEntity {
   @OneToMany(() => OffersEntity, (offers) => offers.user)
   offers: OffersEntity[];
 
-  @OneToMany(() => WishlistsEntity, (wishlists) => wishlists.user)
+  @OneToMany(() => WishlistsEntity, (wishlists) => wishlists.owner)
   wishlists: WishlistsEntity[];
 }

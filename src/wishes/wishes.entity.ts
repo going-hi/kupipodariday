@@ -49,6 +49,8 @@ export class WishesEntity {
   @OneToMany(() => OffersEntity, (offers) => offers.item)
   offers: OffersEntity[];
 
-  @ManyToOne(() => WishlistsEntity, (wishlists) => wishlists.items)
+  @ManyToOne(() => WishlistsEntity, (wishlists) => wishlists.items, {
+    onDelete: 'SET NULL',
+  })
   wishlist: WishlistsEntity;
 }

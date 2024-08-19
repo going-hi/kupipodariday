@@ -24,15 +24,15 @@ export class WishlistsEntity {
   @Column()
   name: string;
 
-  @Column()
-  description: string;
+  @Column({ nullable: true, type: 'varchar' })
+  description: string | null;
 
   @Column()
   image: string;
 
-  @OneToMany(() => WishesEntity, (wishes) => wishes.wishlist)
+  @OneToMany(() => WishesEntity, (wishes) => wishes.wishlist, { cascade: true })
   items: WishesEntity[];
 
   @ManyToOne(() => UsersEntity, (users) => users.wishlists)
-  user: UsersEntity;
+  owner: UsersEntity;
 }

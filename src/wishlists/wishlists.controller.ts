@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
+  ParseIntPipe,
   Post,
   UseGuards,
   UsePipes,
@@ -24,11 +27,18 @@ export class WishlistsController {
   }
 
   @Get()
-  getAll() {}
+  getAll() {
+    return this.wishlistsService.getAll();
+  }
 
   @Get(':id')
-  getOne() {}
+  getOne(@Param('id', ParseIntPipe) id: number) {
+    return this.wishlistsService.getOne(id);
+  }
 
-  @Get(':id')
-  delete() {}
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  delete(@Param('id', ParseIntPipe) id: number, @User('id') userId: number) {
+    return this.wishlistsService.delete(id, userId);
+  }
 }

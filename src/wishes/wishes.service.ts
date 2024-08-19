@@ -43,6 +43,7 @@ export class WishesService {
         offers: { user: { id: true, username: true } },
       },
     });
+    console.log(wish, 'wos');
     return wish;
   }
 
