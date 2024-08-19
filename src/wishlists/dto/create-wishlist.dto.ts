@@ -20,7 +20,6 @@ export class CreateWishlistDto {
   @IsInt({ each: true })
   itemsId: number[];
 
-  // FIX - add field and validation - ???? - swagger hasn't got this field
   @IsOptional()
   @MaxLength(1500)
   @IsString()
