@@ -40,12 +40,12 @@ export class WishesService {
       where: { id },
       relations: { owner: true, offers: { user: true } },
     });
+    if (!wish) throw new NotFoundException();
     return wish;
   }
 
   async delete(id: number, userId: number) {
     const wish = await this.getOne(id);
-    if (!wish) throw new NotFoundException();
     if (wish.owner.id !== userId) throw new ForbiddenException();
     await this.wishesRepository.delete({ id });
     return { id };
@@ -53,7 +53,6 @@ export class WishesService {
 
   async update(id: number, dto: UpdateWishDto, userId: number) {
     const wish = await this.getOne(id);
-    if (!wish) throw new NotFoundException();
     if (wish.owner.id !== userId) throw new ForbiddenException();
     if (wish.offers.length && dto.price) {
       throw new BadRequestException(
@@ -90,7 +89,6 @@ export class WishesService {
 
   async copy(id: number, userId: number) {
     const wish = await this.getOne(id);
-    if (!wish) throw new NotFoundException();
     wish.copied++;
 
     await this.wishesRepository.save(wish);
@@ -105,7 +103,6 @@ export class WishesService {
 
   async addRaised(id: number, amount: number, userId: number) {
     const wish = await this.getOne(id);
-    if (!wish) throw new NotFoundException('Подарок с таким id не найден');
     if (wish.owner.id === userId) {
       throw new BadRequestException('Вы не можете скинуться себе на подарок');
     }
