@@ -46,7 +46,7 @@ export class WishesEntity {
   @ManyToOne(() => UsersEntity, (user) => user.wishes)
   owner: UsersEntity;
 
-  @OneToMany(() => OffersEntity, (offers) => offers.item)
+  @OneToMany(() => OffersEntity, (offers) => offers.item, { cascade: true })
   offers: OffersEntity[];
 
   @ManyToOne(() => WishlistsEntity, (wishlists) => wishlists.items, {

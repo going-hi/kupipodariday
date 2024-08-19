@@ -44,5 +44,6 @@ export class WishlistsService {
     const wishlist = await this.getOne(id);
     if (wishlist.owner.id !== userId) throw new ForbiddenException();
     await this.wishlistsRepository.delete({ id });
+    return { id };
   }
 }

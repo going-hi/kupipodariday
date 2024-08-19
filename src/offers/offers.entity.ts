@@ -29,6 +29,8 @@ export class OffersEntity {
   @ManyToOne(() => UsersEntity, (user) => user.offers)
   user: UsersEntity;
 
-  @ManyToOne(() => WishesEntity, (wishes) => wishes.offers)
+  @ManyToOne(() => WishesEntity, (wishes) => wishes.offers, {
+    onDelete: 'CASCADE',
+  })
   item: WishesEntity;
 }

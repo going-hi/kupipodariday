@@ -20,7 +20,7 @@ export class OffersService {
       item: { id: dto.itemId },
       user: { id: userId },
     });
-    return this.offersRepository.save(offer);
+    return await this.offersRepository.save(offer);
   }
 
   async getOne(id: number) {
@@ -28,8 +28,10 @@ export class OffersService {
       where: { id },
       relations: { user: true, item: { owner: true } },
       select: {
-        user: { id: true, username: true },
-        item: { owner: { id: true, username: true } },
+        user: {
+          id: true,
+          username: true,
+        },
       },
     });
     if (!offers) throw new NotFoundException();

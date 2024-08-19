@@ -38,12 +38,7 @@ export class WishesService {
     const wish = await this.wishesRepository.findOne({
       where: { id },
       relations: { owner: true, offers: { user: true } },
-      select: {
-        owner: { id: true, username: true },
-        offers: { user: { id: true, username: true } },
-      },
     });
-    console.log(wish, 'wos');
     return wish;
   }
 
@@ -52,6 +47,7 @@ export class WishesService {
     if (!wish) throw new NotFoundException();
     if (wish.owner.id !== userId) throw new ForbiddenException();
     await this.wishesRepository.delete({ id });
+    return { id };
   }
 
   async update(id: number, dto: UpdateWishDto, userId: number) {
