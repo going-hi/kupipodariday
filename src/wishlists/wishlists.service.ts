@@ -7,12 +7,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { WishlistsEntity } from './entities/wishlists.entity';
 import { Repository } from 'typeorm';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
+import { UpdateWishlistDto } from './dto/update-wishlist.dto';
+import { WishesService } from 'src/wishes/wishes.service';
 
 @Injectable()
 export class WishlistsService {
   constructor(
     @InjectRepository(WishlistsEntity)
     private readonly wishlistsRepository: Repository<WishlistsEntity>,
+    private readonly wishesService: WishesService,
   ) {}
 
   async create(userId: number, dto: CreateWishlistDto) {
@@ -45,5 +48,26 @@ export class WishlistsService {
     if (wishlist.owner.id !== userId) throw new ForbiddenException();
     await this.wishlistsRepository.delete({ id });
     return { id };
+  }
+
+  async update(userId: number, wishListId: number, dto: UpdateWishlistDto) {
+    const wishList = await this.wishlistsRepository.findOne({
+      where: {
+        id: wishListId,
+      },
+      relations: {
+        items: true,
+        owner: true,
+      },
+    });
+
+    if (!wishList) throw new NotFoundException();
+    if (wishList.owner.id !== userId) throw new ForbiddenException();
+
+    const { itemsId, ...data } = dto;
+
+    const items = await this.wishesService.getByIds(itemsId);
+
+    return this.wishlistsRepository.save({ ...wishList, ...data, items });
   }
 }
