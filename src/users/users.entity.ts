@@ -21,7 +21,7 @@ export class UsersEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column()
+  @Column({ unique: true })
   username: string;
 
   @Column({ default: 'Пока ничего не рассказал о себе' })

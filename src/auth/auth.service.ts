@@ -20,12 +20,22 @@ export class AuthService {
   }
 
   async signUp(dto: SignUpDto) {
-    const user = await this.usersService.findOneByEmail(dto.email);
-    if (user) {
+    const userEmail = await this.usersService.findOneByEmail(dto.email);
+    const userNickname = await this.usersService.findOneByUsername(
+      dto.username,
+    );
+    if (userEmail) {
       throw new BadRequestException(
         'Пользователь с таким email уже существует',
       );
     }
+
+    if (userNickname) {
+      throw new BadRequestException(
+        'Пользователь с таким nickname уже существует',
+      );
+    }
+
     const salt = await genSalt(8);
     const hashPassword = await hash(dto.password, salt);
     const { id, username, about, avatar, email, createdAt, updatedAt } =

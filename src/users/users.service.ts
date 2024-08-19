@@ -5,12 +5,14 @@ import { ILike, Repository } from 'typeorm';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { genSalt, hash } from 'bcrypt';
 import { SignUpDto } from 'src/auth/dto/signup.dto';
+import { WishesService } from 'src/wishes/wishes.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UsersEntity)
     private readonly usersRepository: Repository<UsersEntity>,
+    private readonly wishesService: WishesService,
   ) {}
 
   async findOneByUsername(username: string) {
@@ -109,5 +111,15 @@ export class UsersService {
       },
     });
     return users;
+  }
+
+  getWishesById(userId: number) {
+    return this.wishesService.getAllByUserId(userId);
+  }
+
+  async getWishesByNickname(username: string) {
+    const user = await this.findOneByUsername(username);
+    if (!user) return;
+    return this.wishesService.getAllByUserId(user.id);
   }
 }

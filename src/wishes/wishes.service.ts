@@ -16,6 +16,10 @@ export class WishesService {
     private readonly wishesRepository: Repository<WishesEntity>,
   ) {}
 
+  async getAllByUserId(userId: number) {
+    return this.wishesRepository.find({ where: { owner: { id: userId } } });
+  }
+
   async create(userId: number, dto: CreateWishDto) {
     const wishes = this.wishesRepository.create({
       ...dto,

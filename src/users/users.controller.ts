@@ -33,10 +33,14 @@ export class UsersController {
   }
 
   @Get('me/wishes')
-  getOwnWishes() {}
+  getOwnWishes(@User('id') userId: number) {
+    return this.usersService.getWishesById(userId);
+  }
 
   @Get(':username/wishes')
-  getAnotherUserWishes() {}
+  getAnotherUserWishes(@Param('username') username: string) {
+    return this.usersService.getWishesByNickname(username);
+  }
 
   @Get(':username')
   getAnotherUser(@Param('username') username: string) {
