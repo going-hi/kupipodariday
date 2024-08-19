@@ -9,7 +9,6 @@ import {
 } from 'class-validator';
 
 export class CreateWishlistDto {
-  // FIX - add validation
   @IsString()
   @Min(1)
   @Max(250)

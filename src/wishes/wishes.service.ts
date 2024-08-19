@@ -52,10 +52,14 @@ export class WishesService {
   }
 
   async update(id: number, dto: UpdateWishDto, userId: number) {
-    // FIX - add check for exists offers before update price
     const wish = await this.getOne(id);
     if (!wish) throw new NotFoundException();
     if (wish.owner.id !== userId) throw new ForbiddenException();
+    if (wish.offers.length && dto.price) {
+      throw new BadRequestException(
+        'Вы не можете менять цену, после того как на него уже скинулись',
+      );
+    }
     if (dto.price) dto.price = +dto.price.toFixed(2);
     await this.wishesRepository.save({ ...wish, ...dto });
   }
