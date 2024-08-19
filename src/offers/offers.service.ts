@@ -16,7 +16,7 @@ export class OffersService {
   // FIX - add check for donate for yourself wish - Пользователю нельзя вносить деньги на собственные подарки
   // FIX - add check for ended wishes - Кроме того, нельзя скинуться на подарки, на которые уже собраны деньги. Сумма собранных средств не может превышать стоимость подарка. При попытке оставить заявку на большую сумму сервис должен присылать ошибку с соответствующим текстом в теле.
   async create(userId: number, dto: CreateOffersDto) {
-    await this.wishesService.addRaised(dto.itemId, dto.amount);
+    await this.wishesService.addRaised(dto.itemId, dto.amount, userId);
 
     const offer = this.offersRepository.create({
       ...dto,

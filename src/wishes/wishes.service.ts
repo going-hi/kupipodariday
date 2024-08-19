@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -98,9 +99,23 @@ export class WishesService {
     });
   }
 
-  async addRaised(id: number, amount: number) {
+  async addRaised(id: number, amount: number, userId: number) {
     const wish = await this.getOne(id);
-    if (!wish) throw new NotFoundException('Товар с таким id не найден');
+    if (!wish) throw new NotFoundException('Подарок с таким id не найден');
+    if (wish.owner.id === userId) {
+      throw new BadRequestException('Вы не можете скинуться себе на подарок');
+    }
+    if (wish.price === wish.raised) {
+      throw new BadRequestException(
+        'Нельзя скинуться на уже собранный подарок',
+      );
+    }
+
+    if (wish.price > wish.raised + amount) {
+      throw new BadRequestException(
+        'Вы не можете отправить такую сумму, так как сумма собранных средств не может превышать стоимость подарка ',
+      );
+    }
     wish.raised += amount;
     return this.wishesRepository.save(wish);
   }
