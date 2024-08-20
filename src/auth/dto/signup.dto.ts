@@ -3,8 +3,8 @@ import {
   IsOptional,
   IsString,
   IsUrl,
-  Max,
-  Min,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 import { SignInDto } from './signin.dto';
 
@@ -18,8 +18,8 @@ export class SignUpDto extends SignInDto {
   avatar?: string;
 
   @IsOptional()
-  @Min(2)
-  @Max(200)
+  @MinLength(2)
+  @MaxLength(200)
   @IsString()
   about?: string;
 }

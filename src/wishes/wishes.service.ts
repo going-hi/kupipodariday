@@ -39,6 +39,17 @@ export class WishesService {
     const wish = await this.wishesRepository.findOne({
       where: { id },
       relations: { owner: true, offers: { user: true } },
+      select: {
+        owner: { id: true, username: true },
+        offers: {
+          id: true,
+          amount: true,
+          hidden: true,
+          createdAt: true,
+          updatedAt: true,
+          user: { id: true, username: true },
+        },
+      },
     });
     if (!wish) throw new NotFoundException();
     return wish;
@@ -60,7 +71,7 @@ export class WishesService {
       );
     }
     if (dto.price) dto.price = +dto.price.toFixed(2);
-    await this.wishesRepository.save({ ...wish, ...dto });
+    return await this.wishesRepository.save({ ...wish, ...dto });
   }
 
   async getTop() {

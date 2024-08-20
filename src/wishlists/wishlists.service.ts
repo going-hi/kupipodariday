@@ -34,13 +34,38 @@ export class WishlistsService {
     const wishlist = await this.wishlistsRepository.findOne({
       where: { id },
       relations: { owner: true, items: { owner: true } },
+      select: {
+        owner: {
+          id: true,
+          username: true,
+        },
+        items: {
+          id: true,
+          copied: true,
+          description: true,
+          price: true,
+          image: true,
+          link: true,
+          name: true,
+          raised: true,
+          createdAt: true,
+          updatedAt: true,
+          owner: {
+            id: true,
+            username: true,
+          },
+        },
+      },
     });
     if (!wishlist) throw new NotFoundException();
     return wishlist;
   }
 
   async getAll() {
-    return this.wishlistsRepository.find({ relations: { owner: true } });
+    return this.wishlistsRepository.find({
+      relations: { owner: true },
+      select: { owner: { id: true, username: true } },
+    });
   }
 
   async delete(id: number, userId: number) {
@@ -58,6 +83,9 @@ export class WishlistsService {
       relations: {
         items: true,
         owner: true,
+      },
+      select: {
+        owner: { id: true, username: true },
       },
     });
 

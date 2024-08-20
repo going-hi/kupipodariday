@@ -29,9 +29,19 @@ export class OffersService {
       where: { id },
       relations: { user: true, item: { owner: true } },
       select: {
-        user: {
+        user: { id: true, username: true },
+        item: {
           id: true,
-          username: true,
+          copied: true,
+          description: true,
+          price: true,
+          image: true,
+          link: true,
+          name: true,
+          raised: true,
+          createdAt: true,
+          updatedAt: true,
+          owner: { id: true, username: true },
         },
       },
     });
@@ -42,9 +52,24 @@ export class OffersService {
   async getAll() {
     return this.offersRepository.find({
       relations: { user: true, item: { owner: true } },
+      where: {
+        hidden: false,
+      },
       select: {
         user: { id: true, username: true },
-        item: { owner: { id: true, username: true } },
+        item: {
+          id: true,
+          copied: true,
+          description: true,
+          price: true,
+          image: true,
+          link: true,
+          name: true,
+          raised: true,
+          createdAt: true,
+          updatedAt: true,
+          owner: { id: true, username: true },
+        },
       },
     });
   }

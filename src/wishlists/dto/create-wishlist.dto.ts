@@ -3,15 +3,14 @@ import {
   IsOptional,
   IsString,
   IsUrl,
-  Max,
   MaxLength,
-  Min,
+  MinLength,
 } from 'class-validator';
 
 export class CreateWishlistDto {
   @IsString()
-  @Min(1)
-  @Max(250)
+  @MinLength(1)
+  @MaxLength(250)
   name: string;
 
   @IsUrl()
