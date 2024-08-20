@@ -126,7 +126,7 @@ export class WishesService {
       );
     }
 
-    if (wish.price > wish.raised + amount) {
+    if (wish.price < wish.raised + amount) {
       throw new BadRequestException(
         'Вы не можете отправить такую сумму, так как сумма собранных средств не может превышать стоимость подарка ',
       );
