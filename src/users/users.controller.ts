@@ -38,16 +38,19 @@ export class UsersController {
     return this.usersService.getWishesById(userId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':username/wishes')
   getAnotherUserWishes(@Param('username') username: string) {
     return this.usersService.getWishesByNickname(username);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':username')
   getAnotherUser(@Param('username') username: string) {
     return this.usersService.getAnotherUser(username);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('find')
   findMany(@Body() { query }: FindUserDto) {
     return this.usersService.findUser(query);

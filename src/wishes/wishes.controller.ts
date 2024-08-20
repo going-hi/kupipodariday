@@ -38,6 +38,7 @@ export class WishesController {
     return this.wishesService.getLast();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.wishesService.getOne(id);

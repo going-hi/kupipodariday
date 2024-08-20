@@ -25,11 +25,13 @@ export class OffersController {
     return this.offersService.create(id, dto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   getAll() {
     return this.offersService.getAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.offersService.getOne(id);

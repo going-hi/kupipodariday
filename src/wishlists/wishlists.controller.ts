@@ -28,6 +28,7 @@ export class WishlistsController {
     return this.wishlistsService.create(id, dto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async update(
     @User('id') userId: number,
@@ -37,11 +38,13 @@ export class WishlistsController {
     await this.wishlistsService.update(userId, id, dto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   getAll() {
     return this.wishlistsService.getAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.wishlistsService.getOne(id);
