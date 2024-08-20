@@ -66,7 +66,7 @@ export class WishlistsService {
   async getAll() {
     return this.wishlistsRepository.find({
       relations: { owner: true },
-      select: { owner: { id: true, username: true } },
+      select: { owner: { id: true, username: true, avatar: true } },
     });
   }
 
