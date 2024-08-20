@@ -38,6 +38,7 @@ export class WishlistsService {
         owner: {
           id: true,
           username: true,
+          avatar: true,
         },
         items: {
           id: true,
@@ -53,6 +54,7 @@ export class WishlistsService {
           owner: {
             id: true,
             username: true,
+            avatar: true,
           },
         },
       },
@@ -85,7 +87,7 @@ export class WishlistsService {
         owner: true,
       },
       select: {
-        owner: { id: true, username: true },
+        owner: { id: true, username: true, avatar: true },
       },
     });
 

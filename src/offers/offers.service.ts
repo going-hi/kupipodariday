@@ -29,7 +29,7 @@ export class OffersService {
       where: { id },
       relations: { user: true, item: { owner: true } },
       select: {
-        user: { id: true, username: true },
+        user: { id: true, username: true, avatar: true },
         item: {
           id: true,
           copied: true,
@@ -41,7 +41,7 @@ export class OffersService {
           raised: true,
           createdAt: true,
           updatedAt: true,
-          owner: { id: true, username: true },
+          owner: { id: true, username: true, avatar: true },
         },
       },
     });
@@ -56,7 +56,7 @@ export class OffersService {
         hidden: false,
       },
       select: {
-        user: { id: true, username: true },
+        user: { id: true, username: true, avatar: true },
         item: {
           id: true,
           copied: true,
@@ -68,7 +68,7 @@ export class OffersService {
           raised: true,
           createdAt: true,
           updatedAt: true,
-          owner: { id: true, username: true },
+          owner: { id: true, username: true, avatar: true },
         },
       },
     });

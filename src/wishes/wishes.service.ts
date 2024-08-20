@@ -20,7 +20,10 @@ export class WishesService {
   async getAllByUserId(userId: number) {
     return this.wishesRepository.find({
       where: { owner: { id: userId }, offers: { user: true } },
-      select: { offers: { user: { id: true, username: true } } },
+      select: {
+        offers: { user: { id: true, username: true, avatar: true } },
+        owner: { id: true, username: true, avatar: true },
+      },
     });
   }
 
@@ -40,14 +43,14 @@ export class WishesService {
       where: { id },
       relations: { owner: true, offers: { user: true } },
       select: {
-        owner: { id: true, username: true },
+        owner: { id: true, username: true, avatar: true },
         offers: {
           id: true,
           amount: true,
           hidden: true,
           createdAt: true,
           updatedAt: true,
-          user: { id: true, username: true },
+          user: { id: true, username: true, avatar: true },
         },
       },
     });
